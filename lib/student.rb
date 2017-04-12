@@ -32,7 +32,7 @@ class Student
       SELECT * FROM students
       WHERE name = ? LIMIT 1
     SQL
-    s = DB[:conn].execute(sql,name).first
+    s = DB[:conn].execute(sql,name)[0]
     self.new(s[0], s[1], s[2])
   end
 
