@@ -13,8 +13,7 @@ class Student
     sql = <<-SQL
       CREATE TABLE IF NOT EXISTS students (
         id INTEGER PRIMARY KEY,
-        name TEXT,
-        grade TEXT )
+        name TEXT, grade TEXT )
     SQL
     DB[:conn].execute(sql)
   end
@@ -26,23 +25,18 @@ class Student
     DB[:conn].execute(sql)
   end
 
-  def self.new_from_db(row)
-    self.new(row[0], row[1], row[2])
-  end
+  def self.new_from_db(r) self.new(r[0], r[1], r[2]) end
 
   def self.find_by_name(name)
     sql = <<-SQL
       SELECT * FROM students
-      WHERE name = ?
-      LIMIT 1
+      WHERE name = ? LIMIT 1
     SQL
-    new_student = DB[:conn].execute(sql,name).first
-    self.new(new_student[0], new_student[1], new_student[2])
+    s = DB[:conn].execute(sql,name).first
+    self.new(s[0], s[1], s[2])
   end
 
-  def self.create(name,grade)
-    Student.new(name,grade).save
-  end
+  def self.create(name,grade) Student.new(name,grade).save end
 
   def save
     if self.id
